@@ -23,9 +23,9 @@ public class Arac {
 	        //kullaniciKarti=new Kart();
 	        //kullaniciHistorysi=new ArrayList<History>();
 	    }
-	public void setAracAdİ(String userName1)
+	public void setAracAdi(String userName1)
     {
-        aracAdİ=userName1;
+        aracAdi=userName1;
     }
     public String getAracAdi()
     {
