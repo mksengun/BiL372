@@ -1,0 +1,328 @@
+CREATE SCHEMA `db_abso` ;
+
+CREATE  TABLE `db_abso`.`calisan` (
+
+  `calisan_id` INT NOT NULL ,
+
+  `tc` VARCHAR(11) NOT NULL ,
+
+  `ad` VARCHAR(45) NOT NULL ,
+
+  `soyad` VARCHAR(45) NOT NULL ,
+
+  `telefon` VARCHAR(45) NOT NULL ,
+
+  `adres` VARCHAR(45) NOT NULL ,
+
+  PRIMARY KEY (`calisan_id`) );
+
+CREATE  TABLE `db_abso`.`calisan_sifre` (
+
+  `calisan_id` INT NOT NULL ,
+
+  `sifre` VARCHAR(45) NOT NULL ,
+
+  PRIMARY KEY (`calisan_id`) );
+
+ALTER TABLE calisan_sifre
+ADD FOREIGN KEY (calisan_id)
+REFERENCES calisan(calisan_id);
+
+
+CREATE  TABLE `db_abso`.`musteri` (
+
+  `tc` VARCHAR(11) NOT NULL ,
+
+  `ad` VARCHAR(45) NOT NULL ,
+
+  `soyad` VARCHAR(45) NOT NULL ,
+
+  `telefon` VARCHAR(45) NOT NULL ,
+
+  `email` VARCHAR(45) NOT NULL ,
+
+  PRIMARY KEY (`tc`) );
+
+CREATE  TABLE `db_abso`.`musteri_arac` (
+
+  `musteri_tc` VARCHAR(11) NOT NULL ,
+
+  `arac_id` INT NOT NULL ,
+
+  PRIMARY KEY (`musteri_tc`, `arac_id`) );
+
+CREATE  TABLE `db_abso`.`arac` (
+
+  `plaka` VARCHAR(16) NOT NULL ,
+
+  `ruhsat_no` VARCHAR(45) NOT NULL ,
+
+  `tip_id` INT NOT NULL ,
+
+  `marka_id` INT NOT NULL ,
+
+  `model_id` INT NOT NULL ,
+
+  PRIMARY KEY (`plaka`) );
+
+ALTER TABLE `db_abso`.`musteri_arac` 
+
+  ADD CONSTRAINT `fk_musteriarac_musteri`
+
+  FOREIGN KEY (`musteri_tc` )
+
+  REFERENCES `db_abso`.`musteri` (`tc` )
+
+  ON DELETE NO ACTION
+
+  ON UPDATE NO ACTION
+
+, ADD INDEX `fk_musteriarac_musteri` (`musteri_tc` ASC) ;
+
+
+ALTER TABLE `db_abso`.`musteri_arac` CHANGE COLUMN `arac_id` `arac_id` VARCHAR(16) NOT NULL  ;
+
+
+ALTER TABLE `db_abso`.`musteri_arac` 
+
+  ADD CONSTRAINT `fk_musteriarac_musteri`
+
+  FOREIGN KEY (`musteri_tc` )
+
+  REFERENCES `db_abso`.`musteri` (`tc` )
+
+  ON DELETE NO ACTION
+
+  ON UPDATE NO ACTION, 
+
+  ADD CONSTRAINT `fk_musteriarac_arac`
+
+  FOREIGN KEY (`arac_id` )
+
+  REFERENCES `db_abso`.`arac` (`plaka` )
+
+  ON DELETE NO ACTION
+
+  ON UPDATE NO ACTION
+
+, ADD INDEX `fk_musteriarac_arac` (`arac_id` ASC) ;
+
+
+
+CREATE  TABLE `db_abso`.`tip_marka` (
+
+  `marka_no` INT NOT NULL ,
+
+  `tip_no` INT NOT NULL ,
+
+  PRIMARY KEY (`tip_no`, `marka_no`) );
+  
+  
+ALTER TABLE tip_marka
+ADD FOREIGN KEY (tip_no)
+REFERENCES tip(tip_no)
+
+
+
+CREATE  TABLE `db_abso`.`marka` (
+
+  `marka_no` INT NOT NULL ,
+
+  `marka` VARCHAR(45) NOT NULL ,
+
+  PRIMARY KEY (`marka_no`) );
+
+
+ALTER TABLE tip_marka
+ADD FOREIGN KEY (marka_no)
+REFERENCES marka(marka_no)
+
+
+CREATE  TABLE `db_abso`.`marka_model` (
+
+  `model_no` INT NOT NULL ,
+
+  `marka_no` INT NOT NULL ,
+
+  PRIMARY KEY (`model_no`, `marka_no`) );
+  
+  
+  ALTER TABLE marka_model
+ADD FOREIGN KEY (marka_no)
+REFERENCES marka(marka_no)
+
+
+CREATE  TABLE `db_abso`.`model` (
+
+  `model_no` INT NOT NULL ,
+
+  `model` VARCHAR(45) NOT NULL ,
+
+  `beygir_gucu` INT NOT NULL ,
+
+  `motor_hacmi` FLOAT NOT NULL ,
+
+  PRIMARY KEY (`model_no`) );
+
+ALTER TABLE marka_model
+ADD FOREIGN KEY (model_no)
+REFERENCES model(model_no)
+
+
+CREATE  TABLE `db_abso`.`servis` (
+
+  `servis_id` INT NOT NULL ,
+
+  `servis_ad` VARCHAR(45) NOT NULL ,
+
+  `servis_aciklama` VARCHAR(100) NOT NULL ,
+
+  `fiyat` FLOAT NOT NULL ,
+
+  PRIMARY KEY (`servis_id`) );
+
+
+  CREATE  TABLE `db_abso`.`paket` (
+
+  `paket_id` INT NOT NULL ,
+
+  `paket_fiyat` FLOAT NOT NULL ,
+
+  `baslangic` DATE NOT NULL ,
+
+  `bitis` DATE NOT NULL ,
+
+  PRIMARY KEY (`paket_id`) );
+
+CREATE  TABLE `db_abso`.`paket_servisleri` (
+
+  `paket_id` INT NOT NULL ,
+
+  `servis_id` INT NOT NULL ,
+
+  PRIMARY KEY (`paket_id`, `servis_id`) );
+
+
+ALTER TABLE paket_servisleri
+ADD FOREIGN KEY (paket_id)
+REFERENCES paket(paket_id)
+
+
+ALTER TABLE paket_servisleri
+ADD FOREIGN KEY (servis_id)
+REFERENCES servis(servis_id)
+
+CREATE  TABLE `db_abso`.`paket_tip_kapsama` (
+
+  `paket_id` INT NOT NULL ,
+
+  `tip_no` INT NOT NULL ,
+
+  PRIMARY KEY (`paket_id`, `tip_no`) );
+  
+  ALTER TABLE paket_tip_kapsama
+ADD FOREIGN KEY (paket_id)
+REFERENCES paket(paket_id)
+
+ALTER TABLE paket_tip_kapsama
+ADD FOREIGN KEY (tip_no)
+REFERENCES tip(tip_no)
+
+CREATE  TABLE `db_abso`.`istek` (
+
+  `isted_id` INT NOT NULL ,
+
+  `istek_aciklama` VARCHAR(1000) NOT NULL ,
+
+  `istek_sahip` VARCHAR(11) NOT NULL ,
+
+  PRIMARY KEY (`isted_id`) );
+
+ALTER TABLE istek
+ADD FOREIGN KEY (istek_sahip)
+REFERENCES musteri(tc)
+
+ALTER TABLE `db_abso`.`calisan_sifre` ADD COLUMN `kullanici_adi` VARCHAR(16) NOT NULL  AFTER `sifre` ;
+
+CREATE  TABLE `db_abso`.`hizmet` (
+
+  `hizmet_id` INT NOT NULL ,
+
+  `hizmet_sahip` VARCHAR(11) NOT NULL ,
+
+  `hizmet_arac` VARCHAR(16) NOT NULL ,
+
+  `hizmet_giren` INT NOT NULL ,
+
+  PRIMARY KEY (`hizmet_id`) );
+
+ALTER TABLE hizmet
+ADD FOREIGN KEY (hizmet_sahip)
+REFERENCES musteri(tc)
+
+
+ALTER TABLE hizmet
+ADD FOREIGN KEY (hizmet_arac)
+REFERENCES arac(plaka)
+
+ALTER TABLE hizmet
+ADD FOREIGN KEY (hizmet_giren)
+REFERENCES calisan(calisan_id)
+
+
+CREATE  TABLE `db_abso`.`Hizmet_Detay` (
+
+  `hizmet_id` INT NOT NULL ,
+
+  `hd_istek` INT NULL ,
+
+  `hd_paket` INT NULL ,
+
+  `hd_servis` INT NULL ,
+
+  PRIMARY KEY (`hizmet_id`) );
+  
+  
+CREATE  TABLE `db_abso`.`Hizmet_Sorumlusu` (
+
+  `hizmet_id` INT NOT NULL ,
+
+  `calisan_id` INT NOT NULL ,
+
+  PRIMARY KEY (`hizmet_id`, `calisan_id`) );
+
+ALTER TABLE hizmet_sorumlusu
+ADD FOREIGN KEY (hizmet_id)
+REFERENCES hizmet(hizmet_id)
+
+ALTER TABLE hizmet_sorumlusu
+ADD FOREIGN KEY (calisan_id)
+REFERENCES calisan(calisan_id)
+
+
+ALTER TABLE `db_abso`.`musteri` ADD COLUMN `adres` VARCHAR(45) NOT NULL  AFTER `email` ;
+
+ALTER TABLE `db_abso`.`arac` ADD COLUMN `km` INT NOT NULL  AFTER `model_id` , ADD COLUMN `yas` INT NOT NULL  AFTER `km` ;
+
+
+ALTER TABLE `db_abso`.`calisan` ADD COLUMN `yetki` INT NOT NULL  AFTER `adres` ;
+
+CREATE  TABLE `db_abso`.`Yeni_Servis` (
+
+  `mudur_id` INT NOT NULL ,
+
+  `servis_id` INT NOT NULL ,
+
+  `olusturulma_tarihi` DATE NOT NULL ,
+
+  PRIMARY KEY (`mudur_id`) );
+
+CREATE  TABLE `db_abso`.`Yeni_Paket` (
+
+  `mudur_id` INT NOT NULL ,
+
+  `paket_id` INT NOT NULL ,
+
+  `olusturulma_tarihi` DATE NOT NULL ,
+
+  PRIMARY KEY (`mudur_id`) );
