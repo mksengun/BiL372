@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Arac {
 
-   private String aracAdİ;
+   private String aracAdi;
 	    private String ad;
 	    private String soyad;
 	    private String  sifre;
@@ -15,7 +15,7 @@ public class Arac {
 	    //private ArrayList <History> kullaniciHistorysi;
 
 	    public Arac() {
-	        aracAdİ="";
+	        aracAdi="";
 	        ad="";
 	        soyad="";
 	        sifre="";
@@ -27,9 +27,9 @@ public class Arac {
     {
         aracAdİ=userName1;
     }
-    public String getAracAdİ()
+    public String getAracAdi()
     {
-        return aracAdİ;
+        return aracAdi;
     }
     public void setAd(String ad1)
     {
