@@ -1,8 +1,5 @@
 import java.util.ArrayList;
 
-
-
-
 public class Arac {
 
    private String aracAdi;
