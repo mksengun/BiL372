@@ -1,6 +1,6 @@
-CREATE SCHEMA `db_abso_yeni` ;
+CREATE SCHEMA `db_abso` ;
 
-CREATE  TABLE `db_abso_yeni`.`tip` (
+CREATE  TABLE `db_abso`.`tip` (
 
   `tip_no` INT NOT NULL ,
 
@@ -10,7 +10,7 @@ CREATE  TABLE `db_abso_yeni`.`tip` (
 
 
 
-CREATE  TABLE `db_abso_yeni`.`calisan` (
+CREATE  TABLE `db_abso`.`calisan` (
 
   `calisan_id` INT NOT NULL ,
 
@@ -26,7 +26,7 @@ CREATE  TABLE `db_abso_yeni`.`calisan` (
 
   PRIMARY KEY (`calisan_id`) );
 
-CREATE  TABLE `db_abso_yeni`.`calisan_sifre` (
+CREATE  TABLE `db_abso`.`calisan_sifre` (
 
   `calisan_id` INT NOT NULL ,
 
@@ -39,7 +39,7 @@ ADD FOREIGN KEY (calisan_id)
 REFERENCES calisan(calisan_id);
 
 
-CREATE  TABLE `db_abso_yeni`.`musteri` (
+CREATE  TABLE `db_abso`.`musteri` (
 
   `tc` VARCHAR(11) NOT NULL ,
 
@@ -53,7 +53,7 @@ CREATE  TABLE `db_abso_yeni`.`musteri` (
 
   PRIMARY KEY (`tc`) );
 
-CREATE  TABLE `db_abso_yeni`.`musteri_arac` (
+CREATE  TABLE `db_abso`.`musteri_arac` (
 
   `musteri_tc` VARCHAR(11) NOT NULL ,
 
@@ -61,7 +61,7 @@ CREATE  TABLE `db_abso_yeni`.`musteri_arac` (
 
   PRIMARY KEY (`musteri_tc`, `arac_id`) );
 
-CREATE  TABLE `db_abso_yeni`.`arac` (
+CREATE  TABLE `db_abso`.`arac` (
 
   `plaka` VARCHAR(16) NOT NULL ,
 
@@ -78,16 +78,16 @@ CREATE  TABLE `db_abso_yeni`.`arac` (
 
 
 
-ALTER TABLE `db_abso_yeni`.`musteri_arac` CHANGE COLUMN `arac_id` `arac_id` VARCHAR(16) NOT NULL  ;
+ALTER TABLE `db_abso`.`musteri_arac` CHANGE COLUMN `arac_id` `arac_id` VARCHAR(16) NOT NULL  ;
 
 
-ALTER TABLE `db_abso_yeni`.`musteri_arac` 
+ALTER TABLE `db_abso`.`musteri_arac` 
 
   ADD CONSTRAINT `fk_musteriarac_musteri`
 
   FOREIGN KEY (`musteri_tc` )
 
-  REFERENCES `db_abso_yeni`.`musteri` (`tc` )
+  REFERENCES `db_abso`.`musteri` (`tc` )
 
   ON DELETE NO ACTION
 
@@ -97,7 +97,7 @@ ALTER TABLE `db_abso_yeni`.`musteri_arac`
 
   FOREIGN KEY (`arac_id` )
 
-  REFERENCES `db_abso_yeni`.`arac` (`plaka` )
+  REFERENCES `db_abso`.`arac` (`plaka` )
 
   ON DELETE NO ACTION
 
@@ -107,7 +107,7 @@ ALTER TABLE `db_abso_yeni`.`musteri_arac`
 
 
 
-CREATE  TABLE `db_abso_yeni`.`tip_marka` (
+CREATE  TABLE `db_abso`.`tip_marka` (
 
   `marka_no` INT NOT NULL ,
 
@@ -122,7 +122,7 @@ REFERENCES tip(tip_no);
 
 
 
-CREATE  TABLE `db_abso_yeni`.`marka` (
+CREATE  TABLE `db_abso`.`marka` (
 
   `marka_no` INT NOT NULL ,
 
@@ -136,7 +136,7 @@ ADD FOREIGN KEY (marka_no)
 REFERENCES marka(marka_no);
 
 
-CREATE  TABLE `db_abso_yeni`.`marka_model` (
+CREATE  TABLE `db_abso`.`marka_model` (
 
   `model_no` INT NOT NULL ,
 
@@ -150,7 +150,7 @@ ADD FOREIGN KEY (marka_no)
 REFERENCES marka(marka_no);
 
 
-CREATE  TABLE `db_abso_yeni`.`model` (
+CREATE  TABLE `db_abso`.`model` (
 
   `model_no` INT NOT NULL ,
 
@@ -167,7 +167,7 @@ ADD FOREIGN KEY (model_no)
 REFERENCES model(model_no);
 
 
-CREATE  TABLE `db_abso_yeni`.`servis` (
+CREATE  TABLE `db_abso`.`servis` (
 
   `servis_id` INT NOT NULL ,
 
@@ -180,7 +180,7 @@ CREATE  TABLE `db_abso_yeni`.`servis` (
   PRIMARY KEY (`servis_id`) );
 
 
-  CREATE  TABLE `db_abso_yeni`.`paket` (
+  CREATE  TABLE `db_abso`.`paket` (
 
   `paket_id` INT NOT NULL ,
 
@@ -192,7 +192,7 @@ CREATE  TABLE `db_abso_yeni`.`servis` (
 
   PRIMARY KEY (`paket_id`) );
 
-CREATE  TABLE `db_abso_yeni`.`paket_servisleri` (
+CREATE  TABLE `db_abso`.`paket_servisleri` (
 
   `paket_id` INT NOT NULL ,
 
@@ -210,7 +210,7 @@ ALTER TABLE paket_servisleri
 ADD FOREIGN KEY (servis_id)
 REFERENCES servis(servis_id);
 
-CREATE  TABLE `db_abso_yeni`.`paket_tip_kapsama` (
+CREATE  TABLE `db_abso`.`paket_tip_kapsama` (
 
   `paket_id` INT NOT NULL ,
 
@@ -226,7 +226,7 @@ ALTER TABLE paket_tip_kapsama
 ADD FOREIGN KEY (tip_no)
 REFERENCES tip(tip_no);
 
-CREATE  TABLE `db_abso_yeni`.`istek` (
+CREATE  TABLE `db_abso`.`istek` (
 
   `istek_id` INT NOT NULL ,
 
@@ -240,9 +240,9 @@ ALTER TABLE istek
 ADD FOREIGN KEY (istek_sahip)
 REFERENCES musteri(tc);
 
-ALTER TABLE `db_abso_yeni`.`calisan_sifre` ADD COLUMN `kullanici_adi` VARCHAR(16) NOT NULL  AFTER `sifre` ;
+ALTER TABLE `db_abso`.`calisan_sifre` ADD COLUMN `kullanici_adi` VARCHAR(16) NOT NULL  AFTER `sifre` ;
 
-CREATE  TABLE `db_abso_yeni`.`hizmet` (
+CREATE  TABLE `db_abso`.`hizmet` (
 
   `hizmet_id` INT NOT NULL ,
 
@@ -268,7 +268,7 @@ ADD FOREIGN KEY (hizmet_giren)
 REFERENCES calisan(calisan_id);
 
 
-CREATE  TABLE `db_abso_yeni`.`Hizmet_Detay` (
+CREATE  TABLE `db_abso`.`Hizmet_Detay` (
 
   `hizmet_id` INT NOT NULL ,
 
@@ -281,7 +281,7 @@ CREATE  TABLE `db_abso_yeni`.`Hizmet_Detay` (
   PRIMARY KEY (`hizmet_id`) );
   
   
-CREATE  TABLE `db_abso_yeni`.`Hizmet_Sorumlusu` (
+CREATE  TABLE `db_abso`.`Hizmet_Sorumlusu` (
 
   `hizmet_id` INT NOT NULL ,
 
@@ -298,14 +298,14 @@ ADD FOREIGN KEY (calisan_id)
 REFERENCES calisan(calisan_id);
 
 
-ALTER TABLE `db_abso_yeni`.`musteri` ADD COLUMN `adres` VARCHAR(45) NOT NULL  AFTER `email` ;
+ALTER TABLE `db_abso`.`musteri` ADD COLUMN `adres` VARCHAR(45) NOT NULL  AFTER `email` ;
 
-ALTER TABLE `db_abso_yeni`.`arac` ADD COLUMN `km` INT NOT NULL  AFTER `model_id` , ADD COLUMN `yas` INT NOT NULL  AFTER `km` ;
+ALTER TABLE `db_abso`.`arac` ADD COLUMN `km` INT NOT NULL  AFTER `model_id` , ADD COLUMN `yas` INT NOT NULL  AFTER `km` ;
 
 
-ALTER TABLE `db_abso_yeni`.`calisan` ADD COLUMN `yetki` INT NOT NULL  AFTER `adres` ;
+ALTER TABLE `db_abso`.`calisan` ADD COLUMN `yetki` INT NOT NULL  AFTER `adres` ;
 
-CREATE  TABLE `db_abso_yeni`.`Yeni_Servis` (
+CREATE  TABLE `db_abso`.`Yeni_Servis` (
 
   `mudur_id` INT NOT NULL ,
 
@@ -315,7 +315,7 @@ CREATE  TABLE `db_abso_yeni`.`Yeni_Servis` (
 
   PRIMARY KEY (`mudur_id`) );
 
-CREATE  TABLE `db_abso_yeni`.`Yeni_Paket` (
+CREATE  TABLE `db_abso`.`Yeni_Paket` (
 
   `mudur_id` INT NOT NULL ,
 
@@ -326,9 +326,9 @@ CREATE  TABLE `db_abso_yeni`.`Yeni_Paket` (
   PRIMARY KEY (`mudur_id`) );
 
 
-  drop table `db_abso_yeni`.`hizmet_detay`;
+  drop table `db_abso`.`hizmet_detay`;
   
-  CREATE  TABLE `db_abso_yeni`.`hizmet_detay_paket` (
+  CREATE  TABLE `db_abso`.`hizmet_detay_paket` (
 
   `hizmet_id` INT NOT NULL ,
 
@@ -337,7 +337,7 @@ CREATE  TABLE `db_abso_yeni`.`Yeni_Paket` (
   PRIMARY KEY (`hizmet_id`, `paket_id`) );
 
 
-  CREATE  TABLE `db_abso_yeni`.`hizmet_detay_servis` (
+  CREATE  TABLE `db_abso`.`hizmet_detay_servis` (
 
   `hizmet_id` INT NOT NULL ,
 
@@ -345,7 +345,7 @@ CREATE  TABLE `db_abso_yeni`.`Yeni_Paket` (
 
   PRIMARY KEY (`hizmet_id`, `servis_id`) );
 
-CREATE  TABLE `db_abso_yeni`.`hizmet_detay_istek` (
+CREATE  TABLE `db_abso`.`hizmet_detay_istek` (
 
   `hizmet_id` INT NOT NULL ,
 
